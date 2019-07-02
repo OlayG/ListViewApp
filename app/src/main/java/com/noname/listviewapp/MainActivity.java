@@ -3,9 +3,11 @@ package com.noname.listviewapp;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,6 +42,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupListView(List<String> data) {
         Log.d(TAG, "setupListView: " + data);
+
+        // Declare and Init our adapter
+        StableArrayAdapter adapter = new StableArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, data);
+
+        // set the adapter to the ListView
+        listView.setAdapter(adapter);
+
+        // Set onItemClickListener to ListView
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // retrieve the value from the parent using the position passed in
+                String value = (String) parent.getItemAtPosition(position);
+                // Toast to show value that was clicked
+                Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private List<String> fetchData() {
